@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-serif);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+
+  /* Brand palette — warm terracotta orange */
+  --color-brand-orange: #E2722C;
+  --color-brand-orange-light: #FDF4ED;
+  --color-brand-orange-mid: #F6E7DC;
+  --color-brand-green: #10B981;
+  --color-brand-blue: #2563EB;
+  --color-brand-rose: #EF4444;
+}
+
+:root {
+  --background: #FAF8F5; /* Warm off-white */
+  --foreground: #1C1917; /* Warm black/charcoal */
+  --card: #FFFFFF;
+  --card-foreground: #1C1917;
+  --popover: #FFFFFF;
+  --popover-foreground: #1C1917;
+  --primary: #E2722C; /* Terracotta Orange */
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4EFEA;
+  --secondary-foreground: #44403C;
+  --muted: #F4EFEA;
+  --muted-foreground: #78716C;
+  --accent: #FDF4ED;
+  --accent-foreground: #E2722C;
+  --destructive: #EF4444;
+  --border: #EBE6E0; /* Soft warm gray border */
+  --input: #F4EFEA;
+  --ring: #E2722C;
+  --radius: 1rem;
+}
+
+.dark {
+  --background: #0E0D0C; /* Dark warm charcoal */
+  --foreground: #F5F5F4; /* Warm white */
+  --card: #171514; /* Dark card background */
+  --card-foreground: #F5F5F4;
+  --popover: #171514;
+  --popover-foreground: #F5F5F4;
+  --primary: #F47F38; /* Slightly brighter orange for dark mode */
+  --primary-foreground: #0E0D0C;
+  --secondary: #1F1C1B;
+  --secondary-foreground: #D6D3D1;
+  --muted: #1F1C1B;
+  --muted-foreground: #A8A29E;
+  --accent: #2C1A11;
+  --accent-foreground: #F47F38;
+  --destructive: #EF4444;
+  --border: #2E2B2A; /* Dark warm border */
+  --input: #1F1C1B;
+  --ring: #F47F38;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+}
+
+/* Alternating section background */
+.section-alt {
+  background-color: #FAF8F5;
+}
+.dark .section-alt {
+  background-color: #0E0D0C;
+}
+
+/* Warm hero background */
+.hero-gradient {
+  background: radial-gradient(ellipse 90% 70% at 50% -20%, rgba(226, 114, 44, 0.05) 0%, transparent 60%), #FAF8F5;
+}
+.dark .hero-gradient {
+  background: radial-gradient(ellipse 90% 70% at 50% -20%, rgba(244, 127, 56, 0.03) 0%, transparent 60%), #0E0D0C;
+}
+
+/* Card depth utilities */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+.dark .card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-shadow-md {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), 0 8px 32px rgba(0, 0, 0, 0.03);
+}
+.dark .card-shadow-md {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.card-shadow-lg {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03), 0 20px 56px rgba(0, 0, 0, 0.04);
+}
+.dark .card-shadow-lg {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 20px 56px rgba(0, 0, 0, 0.25);
+}
+
+/* Orange featured glow */
+.orange-glow {
+  box-shadow: 0 0 0 1px rgba(226, 114, 44, 0.2), 0 4px 32px rgba(226, 114, 44, 0.08);
+}
+.dark .orange-glow {
+  box-shadow: 0 0 0 1px rgba(244, 127, 56, 0.3), 0 4px 32px rgba(244, 127, 56, 0.15);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { @apply bg-background; }
+::-webkit-scrollbar-thumb { @apply bg-muted-foreground/30 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground/50; }

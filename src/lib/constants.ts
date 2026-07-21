@@ -1,0 +1,3 @@
+export const FREE_ANONYMOUS_SUMMARY_LIMIT = 3
+export const ANONYMOUS_COOKIE_NAME = "anonymous_id"
+export const FREE_LIMIT_ERROR_CODE = "FREE_LIMIT_REACHED"
