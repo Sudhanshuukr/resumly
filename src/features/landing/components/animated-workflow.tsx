@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { FileText, Cpu, Check, Copy, Sparkles, Star, TrendingUp } from "lucide-react"
+import { FileText, Cpu, Check, Copy, Zap, Star, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export const AnimatedWorkflow = () => {
@@ -41,7 +41,7 @@ export const AnimatedWorkflow = () => {
             <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
             <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
             <div className="ml-2 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
+              <Zap className="w-3.5 h-3.5 text-brand-orange fill-brand-orange/20" />
               <span className="text-xs font-semibold text-[#374151]">AI Summary Generator</span>
             </div>
           </div>

@@ -14,7 +14,7 @@ export const testimonialsData: TestimonialItem[] = [
     name: "Alex Rivera",
     role: "Senior Software Engineer",
     company: "Vercel",
-    content: "Writing summaries is my absolute least favorite part of resume editing. ResumeSummary AI generated a technical summary that was so clean, punchy, and professional that I copied it word-for-word onto my LinkedIn. Landed three interviews the following week.",
+    content: "Writing summaries is my absolute least favorite part of resume editing. Resumly generated a technical summary that was so clean, punchy, and professional that I copied it word-for-word onto my LinkedIn. Landed three interviews the following week.",
     avatarText: "AR",
     avatarBg: "bg-indigo-600"
   },

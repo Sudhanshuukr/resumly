@@ -68,8 +68,9 @@ You must return a valid JSON object with the following schema:
       rewrittenText = parsed.rewrittenText || ""
     } catch (aiErr: any) {
       console.error("[rewrite API] Groq AI error:", aiErr)
+      const errMessage = aiErr?.message ? String(aiErr.message) : "Failed to contact Groq AI service."
       return NextResponse.json(
-        { success: false, message: `AI Error: ${aiErr.message || "Failed to contact Groq."}` },
+        { success: false, message: errMessage.startsWith("AI") ? errMessage : `AI Error: ${errMessage}` },
         { status: 502 }
       )
     }

@@ -25,7 +25,7 @@ function cleanJSONString(rawContent: string): string {
 
 /**
  * Extracts a candidate's structured profile facts from cleaned resume text.
- * Runs in JSON mode with llama-3.3-70b-versatile.
+ * Runs in JSON mode with configured Groq AI model.
  */
 export async function extractCandidateProfile(
   cleanedResumeText: string

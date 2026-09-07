@@ -7,8 +7,8 @@ export interface FAQItem {
 export const faqData: FAQItem[] = [
   {
     id: "how-it-works",
-    question: "How does the AI Resume Summary Generator work?",
-    answer: "ResumeSummary AI reads the text within your uploaded resume (PDF/DOCX), maps it against modern occupational structures using semantic NLP, identifies key metrics and skills, and then generates high-impact, custom-styled summaries designed for hiring managers and ATS filters."
+    question: "How does the Resumly Generator work?",
+    answer: "Resumly reads the text within your uploaded resume (PDF/DOCX), maps it against modern occupational structures using semantic NLP, identifies key metrics and skills, and then generates high-impact, custom-styled summaries designed for hiring managers and ATS filters."
   },
   {
     id: "security",

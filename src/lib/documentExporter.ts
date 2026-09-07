@@ -54,7 +54,7 @@ export async function exportToPDF(
     format: "a4",
   })
 
-  const jobTitle = result.jobTitle || "Resume Summary Profile"
+  const jobTitle = result.jobTitle || "Resumly Profile"
   const industry = result.detectedIndustry && result.detectedIndustry !== "N/A" ? result.detectedIndustry : null
   const experience = result.detectedExperience && result.detectedExperience !== "N/A" ? result.detectedExperience : null
   const score = result.score !== undefined && result.score !== null ? result.score : null
@@ -95,7 +95,7 @@ export async function exportToPDF(
   doc.text("RESUME AI SUMMARIZER & OPTIMIZER", 20, yPos)
   yPos += 8
 
-  // 2. Candidate Job Title (Times bold, matching Playfair serif editorial aesthetic)
+  // 2. Candidate Job Title (Times bold, matching editorial serif aesthetic)
   doc.setFont("times", "bold")
   doc.setFontSize(22)
   doc.setTextColor(14, 13, 12) // #0E0D0C
@@ -237,7 +237,7 @@ export async function exportToDocx(
   const docx = await import("docx")
   const { Document, Packer, Paragraph, TextRun, BorderStyle } = docx
 
-  const jobTitle = result.jobTitle || "Resume Summary Profile"
+  const jobTitle = result.jobTitle || "Resumly Profile"
   const industry = result.detectedIndustry && result.detectedIndustry !== "N/A" ? result.detectedIndustry : null
   const experience = result.detectedExperience && result.detectedExperience !== "N/A" ? result.detectedExperience : null
   const score = result.score !== undefined && result.score !== null ? result.score : null

@@ -2,41 +2,11 @@
 
 import React from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, Sparkles, Plus } from "lucide-react"
+import { ArrowRight, Zap, Plus } from "lucide-react"
 import { Container } from "@/components/common/primitives"
 import { GradientButton } from "@/components/common/buttons"
 import { useSummarizationStore } from "@/store/summarization"
 import { UploadStatus } from "@/types/summarization"
-
-const Daisy = ({ className, size = 60 }: { className?: string; size?: number }) => (
-  <svg
-    className={className}
-    width={size}
-    height={size}
-    viewBox="0 0 100 100"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* Yellow/Orange Center */}
-    <circle cx="50" cy="50" r="14" fill="#F59E0B" />
-    <circle cx="50" cy="50" r="10" fill="#D97706" />
-    
-    {/* 12 Petals */}
-    {[...Array(12)].map((_, i) => {
-      const angle = (i * 360) / 12
-      return (
-        <path
-          key={i}
-          d="M50 34C50 34 46 12 50 12C54 12 50 34 50 34Z"
-          fill="#FAF8F5"
-          stroke="#EBE6E0"
-          strokeWidth="1"
-          transform={`rotate(${angle} 50 50)`}
-        />
-      )
-    })}
-  </svg>
-)
 
 export const Hero = () => {
   const { result, status } = useSummarizationStore()
@@ -52,15 +22,8 @@ export const Hero = () => {
   }
 
   return (
-    <section className="relative min-h-screen pt-36 pb-20 flex flex-col items-center overflow-hidden hero-gradient">
-      
-      {/* Background Daisy Decorations */}
-      <Daisy className="absolute top-24 left-8 md:left-20 opacity-30 animate-pulse pointer-events-none" size={70} />
-      <Daisy className="absolute top-48 right-12 md:right-32 opacity-25 pointer-events-none" size={50} />
-      <Daisy className="absolute bottom-24 left-1/4 opacity-15 pointer-events-none" size={60} />
-      <Daisy className="absolute bottom-40 right-1/4 opacity-20 pointer-events-none" size={80} />
-
-      <Container className="w-full text-center flex flex-col items-center gap-8 z-10">
+    <section className="relative pt-32 pb-16 flex flex-col items-center overflow-hidden hero-gradient">
+      <Container className="w-full text-center flex flex-col items-center gap-7 z-10">
         
         {/* Top Badging */}
         <motion.div
@@ -69,8 +32,8 @@ export const Hero = () => {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 rounded-full bg-brand-orange-light dark:bg-brand-orange/10 border border-brand-orange/20 px-4 py-1.5 text-xs font-semibold text-brand-orange"
         >
-          <Sparkles className="w-3.5 h-3.5" />
-          Next-Generation Career AI
+          <Zap className="w-3.5 h-3.5 fill-brand-orange/20" />
+          AI-Powered Resume Optimizer
         </motion.div>
 
         {/* Serif Editorial Heading */}
@@ -78,13 +41,12 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="font-serif text-5xl sm:text-6xl lg:text-[4.2rem] font-extrabold text-foreground tracking-tight leading-[1.05] max-w-4xl"
+          className="font-serif text-4xl sm:text-5xl lg:text-[4rem] font-extrabold text-foreground tracking-tight leading-[1.1] max-w-3xl"
         >
-          Build a Job-Winning <br />
-          <span className="text-brand-orange relative">
-            Resume in Minutes
-          </span>{" "}
-          with AI
+          Understand &amp; Improve Your <br />
+          <span className="text-brand-orange">
+            Resume with AI
+          </span>
         </motion.h1>
 
         {/* Sans-serif Subtitle */}
@@ -92,9 +54,9 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed font-sans"
+          className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed font-sans"
         >
-          AI analyzes your experience, skills, and career goals to craft a highly detailed, ATS-friendly resume tailored to your job role.
+          Resumly analyzes your experience, extracts key skills, and generates recruiter-ready professional summaries and ATS scores in seconds.
         </motion.p>
 
         {/* Primary CTA Button */}
@@ -104,25 +66,21 @@ export const Hero = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex justify-center"
         >
-          <GradientButton onClick={() => handleScrollTo("#upload")} className="px-8 py-4 text-base font-bold shadow-lg">
-            Build My Resume
-            <ArrowRight className="w-5 h-5 ml-1" />
+          <GradientButton onClick={() => handleScrollTo("#upload")} className="px-8 py-3.5 text-base font-bold shadow-lg">
+            Analyze My Resume
+            <ArrowRight className="w-5 h-5 ml-1.5" />
           </GradientButton>
         </motion.div>
 
-        {/* Large Sage Green Mockup Panel */}
+        {/* Sage Green Mockup Panel */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="w-full max-w-4xl mt-12 relative"
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="w-full max-w-3xl mt-8 relative"
         >
-          {/* Framed daisies around mockup */}
-          <Daisy className="absolute -top-10 -left-6 md:-top-16 md:-left-12 z-20" size={100} />
-          <Daisy className="absolute -bottom-8 -right-6 md:-bottom-12 md:-right-12 z-20" size={110} />
-          
           {/* Sage-Green mockup container */}
-          <div className="w-full aspect-[16/9] rounded-[2rem] bg-[#A9BCA3] dark:bg-[#495846] border border-border shadow-2xl relative overflow-hidden flex items-center justify-center p-8 md:p-12">
+          <div className="w-full aspect-[16/9] rounded-[2rem] bg-[#A9BCA3] dark:bg-[#495846] border border-border shadow-2xl relative overflow-hidden flex items-center justify-center p-6 md:p-10">
             {/* Center Resume Mockup Document */}
             <div className="relative w-[85%] h-[90%] rounded-2xl bg-card border border-border/80 shadow-xl p-5 overflow-hidden flex flex-col gap-5 text-left select-none">
               {/* AI Scanner Line */}

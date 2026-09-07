@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
-  Sparkles, Copy, Check, RefreshCw, FileText, ArrowRight,
+  Zap, Copy, Check, RefreshCw, FileText, ArrowRight,
   Edit3, ChevronDown, ChevronUp, Lightbulb, Target, Star,
   Briefcase, Clock, BarChart3, Download
 } from "lucide-react"
@@ -213,22 +213,22 @@ export const LivePreview = () => {
   }
 
   return (
-    <section id="preview" className="py-24 relative overflow-hidden bg-background border-t border-b border-border">
+    <section id="summaries" className="scroll-mt-20 py-24 relative overflow-hidden bg-background border-t border-b border-border">
       <Container>
 
         {/* Header */}
         <div className="text-center space-y-4 mb-16">
           <Badge className="mx-auto">
-            <Sparkles className="w-3.5 h-3.5" />
-            {hasRealResult ? "Your AI Results" : "Interactive Playground"}
+            <Zap className="w-3.5 h-3.5 fill-brand-orange/20" />
+            {hasRealResult ? "Your AI Results" : "Summary Output"}
           </Badge>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-            {hasRealResult ? "Your Resume, Transformed" : "Witness the AI Transformation"}
+            {hasRealResult ? "Your Resume, Transformed" : "AI Summaries & ATS Analysis"}
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto text-sm font-sans">
             {hasRealResult
-              ? "Three tailored summaries generated from your resume. Select a style, copy, and use."
-              : "Toggle summary configurations below to see how AI translates bullet points into outcome-driven statements."}
+              ? "Three tailored summaries generated from your resume. Select a style, copy, and export."
+              : "Review generated Professional, ATS, and Executive summaries tailored to your target role."}
           </p>
         </div>
 
@@ -301,6 +301,45 @@ export const LivePreview = () => {
                     </div>
                   </div>
                 </>
+              ) : status === UploadStatus.Uploading || status === UploadStatus.Parsing || status === UploadStatus.Generating ? (
+                <div className="flex-1 flex flex-col space-y-4 animate-pulse">
+                  {/* Profile Header Skeleton */}
+                  <div className="flex items-center gap-3 border-b border-border pb-4">
+                    <div className="w-10 h-10 rounded-lg bg-muted" />
+                    <div className="space-y-1.5 flex-1">
+                      <div className="h-4 w-40 bg-muted rounded-md" />
+                      <div className="h-3 w-24 bg-muted/60 rounded-md" />
+                    </div>
+                  </div>
+                  {/* Metrics Skeleton */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-muted/40 rounded-xl p-3 border border-border space-y-2">
+                      <div className="h-2.5 w-16 bg-muted rounded" />
+                      <div className="h-4 w-20 bg-muted/80 rounded" />
+                    </div>
+                    <div className="bg-muted/40 rounded-xl p-3 border border-border space-y-2">
+                      <div className="h-2.5 w-14 bg-muted rounded" />
+                      <div className="h-4 w-24 bg-muted/80 rounded" />
+                    </div>
+                  </div>
+                  {/* Skills Skeleton */}
+                  <div className="space-y-2 pt-1">
+                    <div className="h-2.5 w-24 bg-muted rounded" />
+                    <div className="flex flex-wrap gap-1.5">
+                      <div className="h-6 w-20 bg-muted/60 rounded-lg" />
+                      <div className="h-6 w-24 bg-muted/60 rounded-lg" />
+                      <div className="h-6 w-16 bg-muted/60 rounded-lg" />
+                    </div>
+                  </div>
+                  {/* Score Skeleton */}
+                  <div className="mt-auto pt-4 space-y-2">
+                    <div className="flex justify-between">
+                      <div className="h-2.5 w-20 bg-muted rounded" />
+                      <div className="h-3 w-10 bg-muted rounded" />
+                    </div>
+                    <div className="h-2 bg-muted rounded-full" />
+                  </div>
+                </div>
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-border/50 rounded-xl bg-muted/5">
                   <FileText className="w-8 h-8 text-muted-foreground/40 mb-3" />
@@ -340,7 +379,7 @@ export const LivePreview = () => {
                 "w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center text-muted-foreground transition-all shadow-sm",
                 isTransforming && "border-brand-orange/30 text-brand-orange animate-pulse"
               )}>
-                <Sparkles className="w-4 h-4" />
+                <Zap className="w-4 h-4 fill-brand-orange/20" />
               </div>
               <div className="h-[1px] bg-border flex-1" />
             </div>
@@ -383,18 +422,25 @@ export const LivePreview = () => {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center p-4"
+                          className="absolute inset-0 flex flex-col justify-between p-4"
                         >
-                          <RefreshCw className="w-8 h-8 text-brand-orange animate-spin" />
-                          <span className="text-xs text-muted-foreground font-semibold">
-                            {isRewriting 
-                              ? "Polishing tone with AI..." 
-                              : isPending 
-                                ? "Regenerating summaries..." 
-                                : isSavingEdit
-                                  ? "Saving changes..."
-                                  : "Re-indexing credentials..."}
-                          </span>
+                          <div className="space-y-2.5 animate-pulse pt-1">
+                            <div className="h-3.5 w-11/12 bg-muted/60 rounded-md" />
+                            <div className="h-3.5 w-full bg-muted/50 rounded-md" />
+                            <div className="h-3.5 w-4/5 bg-muted/40 rounded-md" />
+                          </div>
+                          <div className="flex items-center justify-center gap-2 pt-3 border-t border-border/20">
+                            <RefreshCw className="w-3.5 h-3.5 text-brand-orange animate-spin" />
+                            <span className="text-xs text-muted-foreground font-semibold">
+                              {isRewriting 
+                                ? "Polishing tone with AI..." 
+                                : isPending 
+                                  ? "Regenerating summaries..." 
+                                  : isSavingEdit
+                                    ? "Saving changes..."
+                                    : "Re-indexing credentials..."}
+                            </span>
+                          </div>
                         </motion.div>
                       ) : isEditing ? (
                         <motion.div
@@ -572,7 +618,7 @@ export const LivePreview = () => {
                 </>
               ) : (
                 <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border border-dashed border-border/50 rounded-xl bg-muted/5">
-                  <Sparkles className="w-8 h-8 text-muted-foreground/40 mb-3" />
+                  <Zap className="w-8 h-8 text-muted-foreground/40 mb-3" />
                   <p className="text-sm font-bold text-foreground mb-1">No summary generated</p>
                   <p className="text-xs text-muted-foreground leading-relaxed max-w-[250px]">
                     Upload your resume to see your generated professional, ATS, and executive summaries.
@@ -633,7 +679,7 @@ export const LivePreview = () => {
                             <div className="p-1.5 rounded-lg bg-brand-orange/5">
                               {i === 0 ? <Target className="w-3.5 h-3.5 text-brand-orange" /> :
                                i === 1 ? <Star className="w-3.5 h-3.5 text-brand-orange" /> :
-                                         <Sparkles className="w-3.5 h-3.5 text-brand-orange" />}
+                                         <Zap className="w-3.5 h-3.5 text-brand-orange" />}
                             </div>
                             <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                               Tip {i + 1}

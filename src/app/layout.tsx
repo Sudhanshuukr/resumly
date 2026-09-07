@@ -1,23 +1,54 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
+import { Outfit, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/common/theme-provider";
 import "./globals.css";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const outfit = Outfit({
+  variable: "--font-heading",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-serif",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ResumeSummary AI - AI Resume Summary Generator",
-  description: "Generate a professional resume summary in seconds using AI. Upload your resume (PDF/DOCX) and get recruiter-ready summaries for your resume or LinkedIn profile.",
+  title: "Resumly - AI Resume Analyzer",
+  description: "Resumly is an AI resume analyzer that helps you understand and improve your resume. Get instant ATS analysis, recruiter-ready summaries, and actionable career insights.",
+  keywords: [
+    "resume analyzer",
+    "AI resume analysis",
+    "ATS analysis",
+    "resume improvement",
+    "AI resume summarizer",
+    "ATS resume score",
+    "career insights"
+  ],
+  openGraph: {
+    title: "Resumly - AI Resume Analyzer",
+    description: "Understand and improve your resume with AI. Upload your resume for instant ATS analysis, skills evaluation, and recruiter-ready summaries.",
+    siteName: "Resumly",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Resumly - AI Resume Analyzer",
+    description: "Understand and improve your resume with AI. Upload your resume for instant ATS analysis and recruiter-ready summaries.",
+  },
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/apple-icon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -27,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${plusJakarta.variable} ${playfair.variable} min-h-screen bg-background text-foreground font-sans antialiased overflow-x-hidden`}>
+      <body className={`${dmSans.variable} ${outfit.variable} ${jetbrainsMono.variable} min-h-screen bg-background text-foreground font-sans antialiased overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           {children}
         </ThemeProvider>

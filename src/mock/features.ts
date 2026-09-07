@@ -30,7 +30,7 @@ export const featuresData: FeatureItem[] = [
     id: "styles",
     title: "Multiple Summary Styles",
     description: "Toggle between Executive, Technical, Creative, and ATS-Optimized styles designed to match different industry vibes.",
-    iconName: "Sparkles",
+    iconName: "Zap",
   },
   {
     id: "grammar",

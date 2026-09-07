@@ -1,12 +1,15 @@
 // ============================================================
 // Groq Provider — implements the AIProvider interface.
-// Uses Groq's ultra-fast inference with llama-3.3-70b-versatile.
+// Uses Groq's ultra-fast inference with configurable models (default: openai/gpt-oss-120b).
 // Drop-in replacement for openai.ts — same interface, zero other changes.
 // ============================================================
 
 import Groq from "groq-sdk"
 import { SummarizationError } from "@/types/summarization"
 import { AIProvider } from "./openai" // Re-use the interface definition
+
+// Default model to use when GROQ_MODEL environment variable is not explicitly provided
+export const DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 
 // Singleton Groq client — reused across requests in the same process
 let groqClient: Groq | null = null
@@ -19,7 +22,7 @@ function getGroqClient(): Groq {
         success: false,
         code: "AI_ERROR",
         message:
-          "Groq API key is not configured. Please add GROQ_API_KEY to your .env.local file. Get a free key at https://console.groq.com",
+          "Groq API key is not configured. Please add GROQ_API_KEY to your .env file. Get a free key at https://console.groq.com",
       } satisfies SummarizationError
     }
     groqClient = new Groq({ apiKey })
@@ -27,16 +30,62 @@ function getGroqClient(): Groq {
   return groqClient
 }
 
+/**
+ * Extracts a human-friendly error message from a Groq / OpenAI error string or object.
+ */
+function extractCleanErrorMessage(error: unknown): string {
+  if (!error) return "An unexpected error occurred while contacting the AI service."
+
+  if (typeof error === "string") {
+    try {
+      const match = error.match(/\{[\s\S]*\}/)
+      if (match) {
+        const parsed = JSON.parse(match[0])
+        if (parsed?.error?.message) return parsed.error.message
+      }
+    } catch {
+      // ignore parse failure
+    }
+    return error
+  }
+
+  if (typeof error === "object" && error !== null) {
+    const errObj = error as Record<string, unknown>
+    if (typeof errObj.error === "object" && errObj.error !== null) {
+      const inner = errObj.error as Record<string, unknown>
+      if (typeof inner.message === "string") return inner.message
+    }
+    if (typeof errObj.message === "string") {
+      try {
+        const match = errObj.message.match(/\{[\s\S]*\}/)
+        if (match) {
+          const parsed = JSON.parse(match[0])
+          if (parsed?.error?.message) return parsed.error.message
+        }
+      } catch {
+        // ignore parse failure
+      }
+      return errObj.message
+    }
+  }
+
+  return "An unexpected error occurred while contacting the AI service."
+}
+
 export class GroqProvider implements AIProvider {
-  private readonly model: string
+  private readonly defaultModel: string
   private readonly timeoutMs: number
 
   constructor(
-    model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
-    timeoutMs = 30_000
+    model = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL,
+    timeoutMs = 45_000
   ) {
-    this.model = model
+    this.defaultModel = model
     this.timeoutMs = timeoutMs
+  }
+
+  private getModel(): string {
+    return process.env.GROQ_MODEL || this.defaultModel || DEFAULT_GROQ_MODEL
   }
 
   async generateSummary(
@@ -45,13 +94,14 @@ export class GroqProvider implements AIProvider {
   ): Promise<string> {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), this.timeoutMs)
+    const currentModel = this.getModel()
 
     try {
       const client = getGroqClient()
 
       const response = await client.chat.completions.create(
         {
-          model: this.model,
+          model: currentModel,
           messages: [
             { role: "system", content: systemMessage },
             { role: "user", content: userPrompt },
@@ -59,7 +109,7 @@ export class GroqProvider implements AIProvider {
           // Forces valid JSON output — Groq supports the same OpenAI-compatible flag
           response_format: { type: "json_object" },
           temperature: 0.4,  // Low temp = consistent, structured output
-          max_tokens: 1500,
+          max_tokens: 4096,
         },
         { signal: controller.signal }
       )
@@ -95,7 +145,7 @@ export class GroqProvider implements AIProvider {
         throw {
           success: false,
           code: "TIMEOUT",
-          message: "The Groq request timed out after 15 seconds. Please try again.",
+          message: "The Groq request timed out. Please try again.",
         } satisfies SummarizationError
       }
 
@@ -115,17 +165,34 @@ export class GroqProvider implements AIProvider {
             message: "Groq API key is invalid or has expired.",
           } satisfies SummarizationError
         }
+        if (error.status === 404) {
+          throw {
+            success: false,
+            code: "AI_ERROR",
+            message: `The configured Groq AI model (${currentModel}) was not found or is unavailable. Please check your GROQ_MODEL setting.`,
+          } satisfies SummarizationError
+        }
+        if (error.status >= 500) {
+          throw {
+            success: false,
+            code: "AI_ERROR",
+            message: "Groq AI service is temporarily unavailable. Please try again in a moment.",
+          } satisfies SummarizationError
+        }
+
+        const cleanMsg = extractCleanErrorMessage(error)
         throw {
           success: false,
           code: "AI_ERROR",
-          message: `Groq error: ${error.message}`,
+          message: `AI Error: ${cleanMsg}`,
         } satisfies SummarizationError
       }
 
+      const cleanMsg = extractCleanErrorMessage(error)
       throw {
         success: false,
         code: "AI_ERROR",
-        message: "An unexpected error occurred while contacting Groq.",
+        message: cleanMsg,
       } satisfies SummarizationError
     } finally {
       clearTimeout(timer)

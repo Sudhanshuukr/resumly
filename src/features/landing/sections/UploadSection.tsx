@@ -2,7 +2,7 @@
 
 import React, { useRef, DragEvent, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { UploadCloud, FileText, CheckCircle, RefreshCw, AlertTriangle, Sparkles, FileUp } from "lucide-react"
+import { UploadCloud, FileText, CheckCircle, RefreshCw, AlertTriangle, Zap, FileUp } from "lucide-react"
 import { Container, GlassCard, Badge } from "@/components/common/primitives"
 import { GradientButton, OutlineButton } from "@/components/common/buttons"
 import { uploadResume } from "@/services/summarization/uploadResume"
@@ -108,7 +108,7 @@ export const UploadSection = () => {
 
       // Auto-scroll to preview after a short delay
       setTimeout(() => {
-        handleScrollTo("#preview")
+        handleScrollTo("#summaries")
       }, 800)
     } catch (err: unknown) {
       const typedError = err as SummarizationError
@@ -160,7 +160,7 @@ export const UploadSection = () => {
   const isIdle = status === UploadStatus.Idle || status === UploadStatus.Dragging
 
   return (
-    <section id="upload" className="py-24 relative overflow-hidden bg-background border-t border-b border-border">
+    <section id="upload" className="scroll-mt-20 py-24 relative overflow-hidden bg-background border-t border-b border-border">
       <Container className="max-w-4xl">
         
         {/* Header */}
@@ -296,7 +296,7 @@ export const UploadSection = () => {
                 className="flex flex-col items-center py-8 text-center font-sans"
                 aria-live="polite"
               >
-                <Sparkles className="w-10 h-10 text-brand-green animate-pulse mb-4" />
+                <Zap className="w-10 h-10 text-brand-orange animate-pulse mb-4 fill-brand-orange/20" />
                 <h3 className="text-base font-bold text-foreground mb-2">Generating Summaries</h3>
                 <p className="text-xs text-muted-foreground mb-4 max-w-sm">
                   Applying recruiter filters and rewriting accomplishments using actionable language...
@@ -332,7 +332,7 @@ export const UploadSection = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <GradientButton onClick={() => handleScrollTo("#preview")} className="px-6 py-2.5">
+                  <GradientButton onClick={() => handleScrollTo("#summaries")} className="px-6 py-2.5">
                     View Summaries
                   </GradientButton>
                   <OutlineButton onClick={resetUpload} className="px-5 py-2.5">

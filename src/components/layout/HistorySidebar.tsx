@@ -4,9 +4,12 @@ import React, { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, FileText, Calendar, ChevronRight, RefreshCw, Star, ArrowLeft } from "lucide-react"
 import { useSummarizationStore, HistoryItem } from "@/store/summarization"
+import { useRouter, usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 export const HistorySidebar = () => {
+  const router = useRouter()
+  const pathname = usePathname()
   const {
     history,
     isHistoryOpen,
@@ -45,10 +48,14 @@ export const HistorySidebar = () => {
 
   const handleSelect = (item: HistoryItem) => {
     selectHistoryItem(item)
-    // Smooth scroll to preview area
-    setTimeout(() => {
-      document.querySelector("#preview")?.scrollIntoView({ behavior: "smooth", block: "start" })
-    }, 100)
+    setIsHistoryOpen(false)
+    if (pathname !== "/") {
+      router.push("/#summaries")
+    } else {
+      setTimeout(() => {
+        document.querySelector("#summaries")?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }, 100)
+    }
   }
 
   return (
@@ -111,9 +118,28 @@ export const HistorySidebar = () => {
             {/* Content List */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {isLoadingHistory && history.length === 0 ? (
-                <div className="h-48 flex flex-col items-center justify-center text-center gap-2">
-                  <RefreshCw className="w-6 h-6 text-brand-orange animate-spin" />
-                  <p className="text-xs font-semibold text-muted-foreground">Loading recent files...</p>
+                <div className="space-y-3">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="rounded-2xl border border-border/60 bg-card/60 p-4 space-y-3 animate-pulse"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-lg bg-muted" />
+                          <div className="space-y-1.5">
+                            <div className="h-3.5 w-28 bg-muted rounded-md" />
+                            <div className="h-2.5 w-16 bg-muted/60 rounded-md" />
+                          </div>
+                        </div>
+                        <div className="h-5 w-12 bg-muted rounded-full" />
+                      </div>
+                      <div className="space-y-1.5 pt-1">
+                        <div className="h-2.5 w-full bg-muted/70 rounded-md" />
+                        <div className="h-2.5 w-4/5 bg-muted/50 rounded-md" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : history.length === 0 ? (
                 <div className="h-64 flex flex-col items-center justify-center text-center p-6 border border-dashed border-border rounded-2xl bg-muted/20">

@@ -60,7 +60,7 @@ export const HowItWorks = () => {
   ]
 
   return (
-    <section id="how-it-works" className="py-24 relative overflow-hidden bg-background">
+    <section id="how-it-works" className="scroll-mt-20 py-24 relative overflow-hidden bg-background">
       <Container>
         
         {/* Header */}
@@ -69,7 +69,7 @@ export const HowItWorks = () => {
             The AI Pipeline
           </SectionLabel>
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-            How ResumeSummary AI Works
+            How Resumly Works
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto text-sm leading-relaxed font-sans">
             Experience the automated pipeline transforming basic text descriptions into compelling professional pitches.
