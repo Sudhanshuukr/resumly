@@ -1,6 +1,6 @@
 # Resumly
 
-> AI-Powered Resume Analysis & Recruiter-Ready Summary Generator. Understand and optimize your resume in seconds.
+> AI-Powered Resume Analysis & Recruiter-Ready Summary Generator. Understand, evaluate, and elevate your candidate positioning in seconds.
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-resumly--eta.vercel.app-success?style=for-the-badge&logo=vercel)](https://resumly-eta.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
@@ -12,394 +12,291 @@
 
 ---
 
-### 🚀 Live Demo: **[Open Resumly](https://resumly-eta.vercel.app/)**
-
-Experience the live application hosted on Vercel: **[https://resumly-eta.vercel.app/](https://resumly-eta.vercel.app/)**
+### 🚀 Live Demo: **[https://resumly-eta.vercel.app/](https://resumly-eta.vercel.app/)**
 
 ---
 
-## 📖 Overview
+## 1. Project Overview
 
-**Resumly** is a modern, AI-first web application designed to help job seekers instantly evaluate, optimize, and elevate their resumes. Instead of generic templates or tedious resume builders, Resumly focuses on the highest-leverage section of any job application: **the professional summary and candidate positioning**.
+**Resumly** is an AI-first web application engineered to solve the most critical phase of candidate screening: the first six seconds a recruiter spends glancing at a resume. 
 
-Recruiters spend an average of 6 seconds reviewing a resume. Resumly extracts key career milestones, skills, and metrics from uploaded resumes (PDF & DOCX), calculates an **ATS Readiness Score (0–100)**, extracts core technical competencies, and synthesizes 3 targeted, recruiter-ready summaries tailored to different hiring contexts.
+Rather than serving as a full resume builder or generic template editor, Resumly focuses exclusively on **candidate positioning, professional summaries, and ATS alignment**. Job seekers upload an existing resume in PDF or DOCX format. Resumly strips sensitive personally identifiable information (PII), parses career milestones and technical competencies, computes an ATS Readiness Score (0–100), and synthesizes three targeted, recruiter-ready summaries tailored to different hiring contexts.
 
-### Why Resumly?
-- **Speed**: Generates recruiter-grade summaries and ATS insights in under 10 seconds via Groq LPU inference.
-- **Context-Aware Summaries**: Produces distinct Professional, ATS-Optimized, and Executive variations.
-- **Data Privacy First**: Automatically redacts sensitive personal contact information (emails, phone numbers, addresses) prior to LLM processing.
-- **Interactive Customization**: Allows one-click AI tone rewrites (Confident, Technical, Action-Oriented, Creative) and inline manual editing.
-- **Export Ready**: Exports polished summary sheets directly into PDF or Microsoft Word (`.docx`) with a single click.
+### Core Value Proposition
+- **High-Velocity Analysis**: Generates comprehensive ATS insights and summaries in seconds powered by Groq LPU inference (`openai/gpt-oss-120b`).
+- **Context-Specific Summaries**: Generates Professional, ATS-Optimized, and Executive variations from verified candidate facts.
+- **Privacy by Architecture**: Redacts personal contact details (emails, phone numbers, street addresses) prior to LLM processing.
+- **Anti-Hallucination Grounding**: Double-checks extracted facts and AI outputs against raw resume source text, using deterministic fallback mechanisms if claims cannot be verified.
+- **Interactive Refinement**: Supports real-time tone transformations (Confident, Technical, Action-Oriented, Creative) and direct in-browser editing.
+- **Publication-Ready Exports**: Generates styled PDF candidate profile sheets and Microsoft Word (`.docx`) files directly on the client.
 
 ---
 
-## ✨ Features
+## 2. Key Features
 
-### 📄 Multi-Format Resume Ingestion
-- **PDF & DOCX Parsing**: Fast server-side document parsing using `pdf-parse` and `mammoth`.
-- **Drag-and-Drop Uploader**: Fluid, responsive upload interface with real-time file size & extension validation (up to 10 MB).
-- **PII Sanitization**: Automatic redaction of phone numbers, physical addresses, and email addresses to protect candidate privacy.
+### 📄 Multi-Format Document Ingestion
+- **Server-Side Document Parsing**: High-performance extraction supporting binary PDF (`pdf-parse`) and OpenXML DOCX (`mammoth`).
+- **Upload Validation & Integrity Checks**: Enforces 10 MB file size limits, MIME type verification, and PDF magic-byte validation (`%PDF-`), rejecting legacy `.doc` or corrupt uploads with clear error messaging.
+- **Heuristic Quality Gates**: Detects whether uploaded files represent actual resumes through keyword coverage heuristics, rejecting non-resume files or unreadable scanned images (< 100 characters).
+- **PII Scrubbing**: Automatically redacts email addresses, telephone numbers, and street locations before dispatching content to the AI provider.
 
-### 🤖 Multi-Variant AI Summary Generation
-Resumly crafts three distinct professional summary styles from the extracted candidate profile:
-1. **💼 Professional Summary**: A polished, recruiter-ready narrative (2–4 sentences) balancing career trajectory, core strengths, and business impact.
-2. **🎯 ATS-Optimized Summary**: High keyword-density summary formatted to maximize match rates in Applicant Tracking Systems.
-3. **⚡ Executive Summary**: Concise, high-level strategic pitch emphasizing leadership, operational scale, and ROI.
+### 🤖 Multi-Variant Summary Generation
+Resumly generates three distinct summary styles tailored to modern hiring channels:
+1. **💼 Professional Summary**: A balanced, recruiter-ready narrative (2–4 sentences) highlighting career trajectory, core technical strengths, and quantifiable impact.
+2. **🎯 ATS-Optimized Summary**: High-density keyword synthesis aligned with Applicant Tracking System indexing algorithms.
+3. **⚡ Executive Summary**: High-level strategic pitch focusing on leadership scope, team stewardship, and business ROI.
 
-### 🎭 AI Tone Rewriter & Inline Editor
-- **Dynamic Tone Shifting**: Instantly rewrite any summary variation into:
-  - **Confident**: Authoritative, assertive, and leadership-focused.
-  - **Technical**: Stack-dense, emphasizing methodologies and engineering rigor.
-  - **Action-Oriented**: Results-first phrasing driven by high-impact action verbs.
-  - **Creative**: Expressive, dynamic, highlighting innovation and problem-solving.
-- **Direct Manual Editing**: Edit summary text directly inside the browser with immediate auto-save and database persistence.
-- **One-Click Copy**: Copy any generated summary directly to your clipboard.
+### 🎭 AI Tone Rewriter & In-Browser Editor
+- **Tone Adjustments**: Dynamically rewrites any summary variation into one of four styles using Groq JSON mode:
+  - **Confident**: Assertive, leadership-focused phrasing.
+  - **Technical**: Stack-dense, highlighting architectures, frameworks, and engineering methodologies.
+  - **Action-Oriented**: Results-first sentences anchored by strong operational verbs.
+  - **Creative**: Dynamic framing emphasizing innovation and problem-solving.
+- **Live Inline Editor**: Allows direct manual modifications with real-time state synchronization and database persistence.
+- **One-Click Clipboard**: Instant copy functionality for quick application submissions.
 
-### 📊 ATS Readiness Scoring & Candidate Insights
-- **Score Meter (0–100)**: Instant evaluation across structural formatting, experience quantification, and keyword strength.
-- **Score Breakdown & Deductions**: Actionable feedback detailing what was penalized and how to fix it.
-- **Skill Extraction**: Automatic identification and tagging of core competencies and frameworks.
-- **Metadata Detection**: Extracted job title, detected years of experience, industry classification, word count, and reading time estimate.
+### 📊 ATS Readiness Scoring & Diagnostic Engine
+- **Composite Score (0–100)**: Evaluates resumes across quantifiable metrics, section structure, and skill completeness.
+- **Deduction Breakdown**: Outlines structural penalties with actionable fix recommendations.
+- **Skill Extraction & Normalization**: Automatically extracts, categorizes, and normalizes frameworks, languages, cloud platforms, and tooling.
+- **Profile Metadata**: Estimates total years of experience, categorizes seniority level, detects candidate industry, and calculates word count and estimated reading time.
 
-### 📥 Document Exporters
-- **PDF Summary Sheet**: Client-side, publication-grade candidate profile PDF generated using `jspdf`.
-- **Word Document (`.docx`)**: Clean OpenXML document generated via `docx` formatted with typography, skill tags, and optimization tips.
+### 📥 Client-Side Document Exporters
+- **PDF Profile Sheet**: Publishes publication-grade single-page profile sheets generated client-side using `jspdf`.
+- **Word Document (`.docx`)**: Generates structured Microsoft Word documents with typography and styling using `docx`.
 
-### 🔐 Authentication & Session History
-- **Anonymous Guest Quota**: Try up to 3 summaries without signing in, tracked via secure anonymous session cookies.
-- **Supabase Authentication**: Email/password authentication and account management.
-- **Automatic History Claiming**: Log in or create an account to instantly migrate all anonymous guest summaries into your permanent account history.
-- **History Sidebar**: Browse, search, and reload previously analyzed resumes and their summaries.
+### 🔐 Hybrid Guest Quotas & Authentication
+- **Anonymous Sandbox Quota**: Allows up to 3 free resume analyses without signing up, tracked via secure HTTP-only cookies (`anonymous_id`).
+- **Supabase Authentication**: Email/password authentication modal (Login/Signup) powered by Supabase Auth.
+- **Seamless Session Claiming**: Automatically links unclaimed guest summaries to newly authenticated accounts via `/api/history/claim`.
+- **History Drawer**: Slide-out drawer displaying up to 15 recent resume analyses with one-click reload.
 
-### 🎨 Design & Experience
-- **Editorial Typography**: Pairing **Outfit** (headings), **DM Sans** (body & UI), and **JetBrains Mono** (metrics & scores).
-- **Dark & Light Mode**: Built-in system theme detection and manual toggle via `next-themes`.
+### 🎨 Editorial SaaS Experience
+- **Typography Scale**: Pairings of **Outfit** (headings), **DM Sans** (body & form elements), and **JetBrains Mono** (scores and numerical metrics).
+- **Dark-First Theme**: Full dark-mode interface with OKLCH theme tokens and seamless theme switching via `next-themes`.
 - **Micro-Interactions**: Smooth entrance and layout transitions powered by `framer-motion`.
 
 ---
 
-## 🛠️ Tech Stack
+## 3. Technology Stack
 
-### **Frontend**
-| Technology | Description |
-| :--- | :--- |
-| **[Next.js 16](https://nextjs.org/)** | App Router framework, React Server Components & API route handlers |
-| **[React 19](https://react.dev/)** | Latest React features and compiler optimizations |
-| **[TypeScript 5](https://www.typescriptlang.org/)** | Strict type safety across client and server |
-| **[Tailwind CSS v4](https://tailwindcss.com/)** | Modern styling engine with OKLCH theme tokens and CSS variables |
-| **[Framer Motion](https://www.framer.com/motion/)** | Fluid animations, layout transitions, and interactive UI states |
-| **[Zustand 5](https://github.com/pmndrs/zustand)** | Lightweight client state management for active session & resume store |
-| **[Lucide React](https://lucide.dev/)** | Consistent, modern icon system |
-| **[next-themes](https://github.com/pacocoursey/next-themes)** | Seamless dark/light theme switching |
-
-### **Backend & APIs**
-| Technology | Description |
-| :--- | :--- |
-| **Next.js Route Handlers** | Serverless API routes for parsing, AI generation, and database operations |
-| **[Groq SDK](https://groq.com/)** | Ultra-low latency LLM inference using models such as `openai/gpt-oss-120b` |
-| **[OpenAI SDK](https://github.com/openai/openai-node)** | Abstracted provider interface for LLM completions |
-| **[pdf-parse](https://www.npmjs.com/package/pdf-parse)** | Server-side PDF binary parsing and text extraction |
-| **[Mammoth](https://www.npmjs.com/package/mammoth)** | DOCX to plain text and structural extraction |
-
-### **Database & Auth**
-| Technology | Description |
-| :--- | :--- |
-| **[Supabase](https://supabase.com/)** | Managed PostgreSQL database storing resume summaries and metadata |
-| **Supabase Auth** | JWT-based user authentication and session management |
-| **Row Level Security (RLS)** | Database-level authorization rules protecting user history |
-
-### **Export & Document Generation**
-| Technology | Description |
-| :--- | :--- |
-| **[jsPDF](https://github.com/parallax/jsPDF)** | Dynamic client-side PDF document generation |
-| **[docx](https://docx.js.org/)** | Dynamic client-side OpenXML `.docx` Word document generator |
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Framework** | **[Next.js 16.2](https://nextjs.org/)** | App Router, React Server Components, Turbopack, and API Route Handlers |
+| **Frontend Library** | **[React 19.2](https://react.dev/)** | Core UI rendering with modern React Compiler support |
+| **Language** | **[TypeScript 5.0](https://www.typescriptlang.org/)** | Strict type safety across client stores, server routes, and parser pipelines |
+| **Styling** | **[Tailwind CSS v4](https://tailwindcss.com/)** | Next-generation styling engine with OKLCH color variables |
+| **Animations** | **[Framer Motion 12](https://www.framer.com/motion/)** | UI transitions, spring-physics modals, and interactive workflows |
+| **State Management** | **[Zustand 5](https://github.com/pmndrs/zustand)** | Centralized client state for resume data, history drawer, and upload progress |
+| **AI Inference** | **[Groq SDK](https://groq.com/)** | Ultra-low latency LLM inference using `openai/gpt-oss-120b` |
+| **AI Abstraction** | **[OpenAI SDK](https://github.com/openai/openai-node)** | Secondary provider implementation satisfying the shared `AIProvider` contract |
+| **Document Parsers** | **[pdf-parse](https://www.npmjs.com/package/pdf-parse)** & **[mammoth](https://www.npmjs.com/package/mammoth)** | Server-side binary PDF and OpenXML DOCX text extraction |
+| **Document Exporters**| **[jsPDF](https://github.com/parallax/jsPDF)** & **[docx](https://docx.js.org/)** | Client-side dynamic PDF and Word document generators |
+| **Database & Auth** | **[Supabase](https://supabase.com/)** | Managed PostgreSQL database, Supabase Auth (JWT), and Service Role administration |
+| **Icons & Theme** | **[Lucide React](https://lucide.dev/)** & **[next-themes](https://github.com/pacocoursey/next-themes)** | Consistent iconography and system dark/light mode toggling |
 
 ---
 
-## 🏗️ How Resumly Works
+## 4. Project Architecture
+
+### Data Processing Pipeline
 
 ```mermaid
 flowchart TD
-    A[User Uploads PDF / DOCX] --> B[File Validation & Size Check]
-    B --> C[Server-Side Document Parser]
-    C --> D[PII Sanitizer & Text Cleaner]
-    D --> E[Candidate Profile & Section Extractor]
-    E --> F[ATS Scoring & Skills Extraction Engine]
-    E --> G[Groq AI Prompt Engine]
-    G --> H[Multi-Variant Summary Generation]
-    F & H --> I[Supabase Database Persistence]
-    I --> J[Interactive Live Preview UI]
-    J --> K[AI Tone Rewrites & Inline Edits]
-    J --> L[Export PDF / DOCX or Copy Text]
+    A["User Uploads Resume (PDF / DOCX)"] --> B["Client File & MIME Validation"]
+    B --> C["Next.js Route Handler (/api/summarize)"]
+    C --> D["Quota & Session Check (Cookie / JWT)"]
+    D --> E["Server Document Parser (pdf-parse / mammoth)"]
+    E --> F["Text Normalization & PII Sanitization"]
+    F --> G["Resume Content Verification Gate"]
+    G --> H["Structured Profile Extraction (Groq)"]
+    H --> I["Double-Grounding Verification"]
+    I --> J["ATS Scoring & Section Reconciler"]
+    I --> K["Summary Synthesis (3 Variants via Groq)"]
+    K --> L{"Fact Grounding Validation"}
+    L -- Valid --> M["AI Insights Generator"]
+    L -- Invalid --> N["Deterministic Fallback Engine"]
+    M & N --> O["Supabase PostgreSQL Persistence"]
+    O --> P["Interactive Live Preview UI"]
+    P --> Q["Tone Rewriter (/api/rewrite)"]
+    P --> R["Inline Manual Editor (/api/summary/edit)"]
+    P --> S["Client Document Export (PDF / DOCX)"]
 ```
 
-1. **Upload & Parse**: The user uploads a resume file (`.pdf` or `.docx`). The server validates the format and size (< 10 MB) and extracts raw text using `pdf-parse` or `mammoth`.
-2. **Sanitization**: Contact information such as phone numbers, emails, and street addresses are sanitized and redacted before LLM processing.
-3. **Extraction & Scoring**: The engine scans work experience, career milestones, and skill tokens to calculate the ATS Readiness score and detect career metadata (job title, industry, experience level).
-4. **AI Generation**: Resumly calls Groq (`openai/gpt-oss-120b`) with specialized system prompts to generate the Professional, ATS, and Executive summary variants.
-5. **Interactive UI**: The candidate reviews their summaries, adjusts tone (Confident, Technical, Action-Oriented, Creative), makes manual inline revisions, or exports the summary sheet to PDF or Word.
+### Architectural Highlights
+- **Decoupled AI Engine**: Providers implement a unified `AIProvider` interface (`generateSummary(systemMessage, userPrompt)`). The primary runtime uses Groq LPU inference for high throughput, while an OpenAI implementation is available without requiring UI alterations.
+- **Double-Grounding Verification**: Extracted facts and generated summaries pass through rigorous entity and metric cross-referencing against the source text. If hallucinations occur, an automatic feedback retry loop activates; if validation fails again, a deterministic fallback builder executes.
+- **Server-Side Service Role Isolation**: Client queries run securely under Row Level Security (RLS), while administrative tasks (guest session tracking, usage quota checks, and history claiming) execute via the server-side Supabase Service Role client (`getSupabaseAdmin()`).
+- **Zero React-Context Performance**: Global client state is centralized in a single Zustand store (`src/store/summarization.ts`), isolating re-renders strictly to components displaying updated state.
 
 ---
 
-## 📂 Project Structure
+## 5. Project Structure
 
 ```
-ecommerce/
-├── public/                     # Static assets, SVG icons, and preview media
+Resumly/
+├── .github/
+│   └── workflows/
+│       └── supabase-keepalive.yml   # 8-hour cron ping to maintain Supabase activity
+├── public/                          # Static branding, favicons, and metadata icons
 ├── src/
-│   ├── app/                    # Next.js App Router structure
-│   │   ├── api/                # Backend API route handlers
-│   │   │   ├── history/        # History retrieval and session claiming
-│   │   │   ├── rewrite/        # AI tone rewrite endpoint
-│   │   │   ├── summarize/      # Main resume analysis & usage tracking
-│   │   │   └── summary/edit/   # Manual summary update endpoint
-│   │   ├── privacy/            # Privacy policy page
-│   │   ├── terms/              # Terms of service page
-│   │   ├── globals.css         # Global stylesheet & Tailwind CSS variables
-│   │   ├── layout.tsx          # Root layout with fonts & theme provider
-│   │   └── page.tsx            # Main landing page
+│   ├── app/                         # Next.js App Router
+│   │   ├── api/                     # Backend Route Handlers
+│   │   │   ├── history/             # Session history retrieval
+│   │   │   │   └── claim/           # Guest-to-user history migration endpoint
+│   │   │   ├── newsletter/          # Preserved disabled endpoint (returns 404)
+│   │   │   ├── rewrite/             # AI tone rewriting endpoint
+│   │   │   ├── summarize/           # Resume analysis, parsing & extraction
+│   │   │   │   └── usage/           # Guest quota and usage checking endpoint
+│   │   │   └── summary/
+│   │   │       └── edit/            # Inline manual summary editing endpoint
+│   │   ├── privacy/                 # Privacy Policy page
+│   │   ├── terms/                   # Terms of Service page
+│   │   ├── globals.css              # Tailwind CSS v4 variables and token mapping
+│   │   ├── layout.tsx               # Root layout, font definitions, theme provider
+│   │   └── page.tsx                 # Main application landing page
 │   ├── components/
-│   │   ├── common/             # Reusable UI primitives, cards, buttons, theme-provider
-│   │   └── layout/             # Navbar, Footer, AuthModal, HistorySidebar
+│   │   ├── common/                  # Reusable UI primitives, cards, buttons, theme provider
+│   │   ├── layout/                  # Navbar, Footer, AuthModal, HistorySidebar, AuthInitializer
+│   │   └── ui/                      # Base button primitive
 │   ├── features/
-│   │   └── landing/            # Landing page feature modules
-│   │       ├── components/     # Animated workflow visualizations
-│   │       └── sections/       # Hero, UploadSection, LivePreview, HowItWorks
+│   │   └── landing/                 # Landing modules & workflow visualizations
+│   │       ├── components/          # Animated workflow diagram
+│   │       └── sections/            # Hero, UploadSection, LivePreview, HowItWorks
 │   ├── lib/
-│   │   ├── ai/                 # Parsers, cleaners, validators, and Groq/OpenAI providers
-│   │   ├── summarization/      # Scoring logic, prompt builders, profile extractors
-│   │   ├── anonymousSession.ts # Guest cookie session utilities
-│   │   ├── documentExporter.ts # PDF & DOCX export builders
-│   │   ├── quota.ts            # Anonymous and authenticated rate/quota checking
-│   │   ├── supabase.ts         # Supabase client and admin initialization
-│   │   └── utils.ts            # Class merging and formatting helpers
+│   │   ├── ai/                      # Document parsers, cleaners, validators, Groq/OpenAI providers
+│   │   │   ├── prompts/             # System prompt templates
+│   │   │   └── providers/           # Groq and OpenAI SDK implementations
+│   │   ├── summarization/           # Scoring engine, profile extractor, fact verifiers, test suite
+│   │   ├── anonymousSession.ts      # HTTP-only guest session cookie management
+│   │   ├── documentExporter.ts      # Client-side PDF and Word document generators
+│   │   ├── quota.ts                 # Anonymous and authenticated quota enforcement
+│   │   ├── supabase.ts              # Supabase browser client & server admin client
+│   │   └── utils.ts                 # Class merging and formatting utilities
+│   ├── mock/                        # Mock data for initial states and preview cards
+│   ├── proxy.ts                     # In-memory IP rate limiter
 │   ├── store/
-│   │   └── summarization.ts    # Zustand store managing resume state & UI actions
-│   └── types/                  # Shared TypeScript schemas and interfaces
-├── .env.example                # Template for environment configuration
-├── package.json                # Project dependencies and npm scripts
-├── tsconfig.json               # TypeScript compiler configuration
-└── README.md                   # Project documentation
+│   │   └── summarization.ts         # Zustand store for app state & asynchronous actions
+│   └── types/                       # TypeScript schemas and type definitions
+├── .env.example                     # Environment template with placeholder values
+├── components.json                  # shadcn/ui configuration
+├── next.config.ts                   # Next.js configuration (Turbopack, React Compiler)
+├── package.json                     # Project scripts and dependencies
+├── tsconfig.json                    # TypeScript compiler configuration
+└── README.md                        # Technical project documentation
 ```
 
 ---
 
-## ⚙️ Getting Started
+## 6. Environment Configuration
 
-Follow these steps to set up and run Resumly on your local machine.
+Resumly uses Next.js environment resolution. Local configurations are defined in `.env` (or `.env.local`, both ignored by git), while `.env.example` provides a sanitized template.
 
-### Prerequisites
-- **Node.js**: `v18.18.0` or higher (Node 20+ recommended)
-- **npm** (or `pnpm` / `yarn` / `bun`)
-- **Groq API Key**: Obtain a free API key at [console.groq.com](https://console.groq.com/keys)
-- **Supabase Project** *(optional for full database features)*: Free project at [supabase.com](https://supabase.com)
+### Configuration Reference
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/sudhanshuukr/ecommerce.git
-cd ecommerce
-```
-
-### 2. Install Dependencies
-```bash
-npm install
-```
-
-### 3. Configure Environment Variables
-Copy `.env.example` to create `.env.local`:
-```bash
-cp .env.example .env.local
-```
-
-Open `.env.local` and configure the required keys:
-```env
-# ============================================================
-# AI Configuration (Required)
-# ============================================================
-GROQ_API_KEY="your_groq_api_key_here"
-AI_PROVIDER=groq
-GROQ_MODEL=openai/gpt-oss-120b
-
-# Maximum file upload size in bytes (default: 10 MB)
-MAX_UPLOAD_SIZE=10485760
-
-# Maximum resume text characters sent to AI (default: 25,000)
-MAX_RESUME_CHARACTERS=25000
-
-# ============================================================
-# Supabase Configuration (Optional for guest mode, Required for Auth/History)
-# ============================================================
-NEXT_PUBLIC_SUPABASE_URL="https://your-project-id.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your_supabase_anon_key_here"
-SUPABASE_SERVICE_ROLE_KEY="your_supabase_service_role_key_here"
-```
-
-### 4. Run Local Development Server
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to view Resumly.
-
-### 5. Build for Production
-To test the production build locally:
-```bash
-npm run build
-npm run start
-```
+| Variable | Required | Scope | Default / Value | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `NEXT_PUBLIC_SUPABASE_URL` | **Yes** | Client & Server | — | Supabase project API URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **Yes** | Client & Server | — | Supabase public anonymous key (browser-safe) |
+| `SUPABASE_SERVICE_ROLE_KEY` | **Yes** | Server Only | — | Supabase service role secret (bypasses RLS for admin operations) |
+| `AI_PROVIDER` | No | Server Only | `groq` | Configured AI provider (`groq` or `openai`) |
+| `GROQ_API_KEY` | **Yes** (if Groq) | Server Only | — | Groq Cloud API key for LPU inference |
+| `GROQ_MODEL` | No | Server Only | `openai/gpt-oss-120b` | Groq model identifier |
+| `OPENAI_API_KEY` | Optional | Server Only | — | OpenAI API key (used if using OpenAI provider) |
+| `OPENAI_MODEL` | No | Server Only | `gpt-4o-mini` | OpenAI model identifier |
+| `MAX_UPLOAD_SIZE` | No | Server Only | `10485760` (10 MB) | Maximum permitted upload file size in bytes |
+| `MAX_RESUME_CHARACTERS` | No | Server Only | `25000` | Maximum character limit sent to AI prompts |
+| `RATE_LIMIT_MAX` | No | Server Only | `0` (disabled) | Max requests allowed per IP window (`src/proxy.ts`) |
+| `RATE_LIMIT_WINDOW_MS` | No | Server Only | `60000` (60s) | Sliding time window for rate limiting in ms |
 
 ---
 
-## 🔐 Authentication & Security
+## 7. API Overview
 
-- **Anonymous Guest Sandbox**: Guests can analyze up to 3 resumes without an account. Sessions are tracked via signed HTTP-only anonymous session IDs.
-- **Seamless Account Claiming**: When an anonymous user signs up or logs in, a secure backend migration endpoint (`/api/history/claim`) links all existing guest summaries to the authenticated user ID.
-- **Service Role Isolation**: Administrative database mutations run strictly in server-side Route Handlers via `SUPABASE_SERVICE_ROLE_KEY`, protecting database integrity while exposing standard client operations through scoped RLS policies.
-- **PII Scrubbing**: Before resume contents are dispatched to the AI provider, personal phone numbers, email addresses, and physical addresses are scrubbed.
-
----
-
-## 🗄️ Database & Schema
-
-Resumly uses Supabase PostgreSQL to persist summaries and candidate profiles.
-
-### Primary Table: `summaries`
-| Column | Type | Description |
-| :--- | :--- | :--- |
-| `id` | `UUID` | Primary Key |
-| `created_at` | `TIMESTAMPTZ` | Timestamp of creation |
-| `user_id` | `UUID` (Nullable) | References Supabase Auth User ID (null for guest sessions) |
-| `session_id` | `TEXT` | Anonymous session identifier for guest quota tracking |
-| `file_name` | `TEXT` | Original uploaded resume filename |
-| `job_title` | `TEXT` | Extracted / inferred candidate job title |
-| `professional` | `TEXT` | Generated Professional Summary |
-| `ats` | `TEXT` | Generated ATS-Optimized Summary |
-| `executive` | `TEXT` | Generated Executive Summary |
-| `skills` | `TEXT[]` | Extracted top technical competencies and skills |
-| `score` | `INTEGER` | ATS readiness score (0–100) |
-| `tips` | `TEXT[]` | Actionable recommendations for resume improvement |
-| `word_count` | `INTEGER` | Resume total word count |
-| `reading_time` | `TEXT` | Estimated resume reading time |
-| `detected_experience`| `TEXT` | Detected years of experience |
-| `detected_industry` | `TEXT` | Inferred candidate industry |
-
----
-
-## 🔌 API Reference
+All backend endpoints are built as Next.js Route Handlers located under `src/app/api/`:
 
 ### `POST /api/summarize`
-Analyzes an uploaded resume file or regenerated text payload.
-- **Input**: `multipart/form-data` with `resume` file (`.pdf` or `.docx`) or `application/json` with `{ resumeText, fileName }`.
-- **Response**: Returns the `SummarizationResult` object including summaries, skills, score, tips, and metadata.
-
-### `POST /api/rewrite`
-Rewrites a specific summary variant using a target tone.
-- **Input**: `{ id, text, variant, tone }` where `tone` is `"confident" | "technical" | "action-oriented" | "creative"`.
-- **Response**: `{ success: true, text: string }`.
-
-### `POST /api/summary/edit`
-Saves manual edits made to a summary variant.
-- **Input**: `{ id, text, variant }`.
-- **Response**: `{ success: true, text: string }`.
-
-### `GET /api/history`
-Fetches past resume analyses for the authenticated user or guest session.
-- **Query Params**: `?session_id=<id>` (used for guest sessions).
-- **Headers**: `Authorization: Bearer <token>` (used for authenticated users).
-
-### `POST /api/history/claim`
-Migrates unclaimed guest summaries associated with the current session ID to the newly authenticated user account.
-- **Headers**: `Authorization: Bearer <token>`.
+Coordinates resume ingestion, text parsing, PII redaction, ATS scoring, and summary generation.
+- **Request**: `multipart/form-data` with `resume` file (`.pdf` or `.docx`), or `application/json` with `{ resumeText, fileName }`.
+- **Headers**: Optional `Authorization: Bearer <token>` or `x-session-id: <uuid>`.
+- **Response**: `200 OK` with `SummarizationSuccess` payload containing ATS score, deductions, profile facts, 3 summary variations, and remaining quota.
 
 ### `GET /api/summarize/usage`
-Returns current guest quota usage or authentication status.
-- **Response**: `{ authenticated: boolean, usage: { used, limit, remaining } | null }`.
+Checks quota usage for guest sessions or verifies active user authentication.
+- **Response**: `200 OK` with `{ authenticated: boolean, usage: { used, limit, remaining } | null }`.
+
+### `POST /api/rewrite`
+Rewrites an active summary variant into a target tone.
+- **Request**: `application/json` with `{ id, text, variant, tone }` (`variant`: `professional` | `ats` | `executive`; `tone`: `confident` | `technical` | `action-oriented` | `creative`).
+- **Response**: `200 OK` with `{ success: true, rewrittenText: string, usage: object }`.
+
+### `POST /api/summary/edit`
+Saves manual inline edits to a specific summary variant in the database.
+- **Request**: `application/json` with `{ id, text, variant }`.
+- **Response**: `200 OK` with `{ success: true, text: string }`.
+
+### `GET /api/history`
+Retrieves past resume analyses for the active session.
+- **Parameters**: `?session_id=<id>` for guest users, or `Authorization: Bearer <token>` for authenticated users.
+- **Response**: `200 OK` with list of past summary records sorted by `created_at DESC` (limit: 15).
+
+### `POST /api/history/claim`
+Migrates unclaimed guest summaries associated with a session ID to a newly authenticated user account.
+- **Headers**: `Authorization: Bearer <token>`.
+- **Response**: `200 OK` with `{ success: true, claimedCount: number }`.
+
+### `POST /api/newsletter`
+Route preserved with a `404 Not Found` response while newsletter features are temporarily inactive.
 
 ---
 
-## 🎨 UI & Design Philosophy
+## 8. Database Overview
 
-- **Editorial Aesthetic**: Inspired by modern editorial publications, balancing clean whitespace, clear typography, and subtle glassmorphic surfaces.
-- **Typography Scale**:
-  - Headings: `Outfit`
-  - Body & Form Elements: `DM Sans`
-  - Numbers, Metrics & Scores: `JetBrains Mono`
-- **Color Palette**: Dark charcoal backgrounds with warm terracotta accents (`#E2722C`) and sage green preview mockup accents.
-- **Accessibility**: High contrast ratios, semantic HTML5 structure, ARIA labels, and responsive layout scaling across mobile, tablet, and desktop screens.
+Resumly utilizes a managed PostgreSQL database hosted on **Supabase**.
 
----
+### Table: `summaries`
+Stores generated resume summaries, ATS metrics, and candidate profile facts:
 
-## 🧪 Testing & Code Quality
+| Column | Type | Nullable | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `UUID` | No | Primary Key (`gen_random_uuid()`) |
+| `created_at` | `TIMESTAMPTZ` | No | Record creation timestamp (`now()`) |
+| `user_id` | `UUID` | Yes | Foreign key referencing Supabase Auth `auth.users(id)` |
+| `session_id` | `TEXT` | Yes | Anonymous session identifier for guest quota tracking |
+| `file_name` | `TEXT` | No | Uploaded resume file name |
+| `job_title` | `TEXT` | Yes | Inferred or extracted candidate job title |
+| `score` | `INTEGER` | No | Calculated ATS Readiness Score (0–100) |
+| `word_count` | `INTEGER` | Yes | Total word count of parsed resume text |
+| `reading_time` | `TEXT` | Yes | Estimated reading time (e.g. `"2 min read"`) |
+| `detected_experience`| `TEXT` | Yes | Detected seniority or years of experience |
+| `detected_industry` | `TEXT` | Yes | Inferred professional industry classification |
+| `skills` | `TEXT[]` | Yes | Extracted key competencies and technologies |
+| `professional` | `TEXT` | Yes | Generated Professional Summary text |
+| `ats` | `TEXT` | Yes | Generated ATS-Optimized Summary text |
+| `executive` | `TEXT` | Yes | Generated Executive Summary text |
+| `tips` | `TEXT[]` | Yes | Actionable improvement recommendations |
 
-The codebase enforces strict TypeScript type checking and ESLint rules:
-
-```bash
-# Run TypeScript compilation check
-npx tsc --noEmit
-
-# Run ESLint check
-npm run lint
-
-# Validate production build
-npm run build
-```
-
----
-
-## 🚀 Deployment
-
-Resumly is optimized for zero-configuration deployment on **Vercel**:
-
-1. Push your repository to GitHub.
-2. Import the project into the [Vercel Dashboard](https://vercel.com/new).
-3. Add the environment variables specified in `.env.example` (`GROQ_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`).
-4. Click **Deploy**.
-
-🚀 **Live Deployment**: **[https://resumly-eta.vercel.app/](https://resumly-eta.vercel.app/)**
+### Security & Automated Maintenance
+- **Row Level Security (RLS)**: Client operations are scoped to the authenticated user ID.
+- **Administrative Bypass**: Server-side Route Handlers execute administrative queries using `SUPABASE_SERVICE_ROLE_KEY`, ensuring guest session claiming and anonymous quota verification operate securely.
+- **Automated Keep-Alive**: A scheduled GitHub Actions workflow (`.github/workflows/supabase-keepalive.yml`) queries the database every 8 hours to prevent free-tier project pausing.
 
 ---
 
-## 🗺️ Roadmap
+## 9. Deployment Information
 
-- [ ] **Job Description Matcher**: Compare your resume directly against specific job descriptions to compute keyword match percentage.
-- [ ] **LinkedIn About Generator**: Export 1-click tailored LinkedIn "About" bio sections.
-- [ ] **Cover Letter Synthesizer**: Generate targeted cover letters based on the extracted candidate profile.
-- [ ] **Custom Resume Templates**: Additional downloadable PDF visual theme templates.
-- [ ] **Multi-language Support**: Support resume analysis in Spanish, French, German, and other languages.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! To contribute:
-
-1. **Fork** the repository.
-2. Create a feature branch:
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "feat: add amazing feature"
-   ```
-4. Push to your branch:
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. Open a **Pull Request**.
+Resumly is optimized for continuous deployment on **Vercel**:
+- **Application Platform**: Vercel (Next.js App Router serverless execution).
+- **Production URL**: **[https://resumly-eta.vercel.app/](https://resumly-eta.vercel.app/)**
+- **Continuous Integration**: Pushes to `main` automatically trigger production builds and deployments.
+- **Required Production Secrets**: Configure `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `GROQ_API_KEY` in the Vercel project settings.
 
 ---
 
-## 📄 License
-
-This repository does not currently specify an open-source license. All rights are reserved by the author.
-
----
-
-## 👨‍💻 Author
+## 10. Author & Credits
 
 **Sudhanshu Kumar**
-- **Website / Demo**: [resumly-eta.vercel.app](https://resumly-eta.vercel.app/)
+- **Live Demo**: [resumly-eta.vercel.app](https://resumly-eta.vercel.app/)
 - **GitHub**: [@sudhanshuukr](https://github.com/sudhanshuukr)
 - **LinkedIn**: [Sudhanshu Kumar](https://www.linkedin.com/in/sudhanshuukr/)
 - **X (Twitter)**: [@sudhanshuworks](https://x.com/sudhanshuworks)
@@ -407,5 +304,5 @@ This repository does not currently specify an open-source license. All rights ar
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/sudhanshuukr">Sudhanshu Kumar</a>. Powered by Next.js, Groq, and Supabase.</sub>
+  <sub>Built with precision by <a href="https://github.com/sudhanshuukr">Sudhanshu Kumar</a>. Powered by Next.js, Groq LPU, and Supabase.</sub>
 </div>
